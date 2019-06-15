@@ -101,7 +101,7 @@ public class OrdenacaoTopologica
 		
 		BufferedReader in;
 		try {
-			in = new BufferedReader(new FileReader("C:\\Users\\Dezembro\\Documents\\unirio\\2019.1.edd1\\trabalho_final\\src\\"+nomeEntrada));
+			in = new BufferedReader(new FileReader("src/"+nomeEntrada));
 			String line;
 			while((line = in.readLine()) != null){
 				leituraLinha(line);		    
