@@ -8,13 +8,13 @@ public class OrdenacaoTopologica
 {
 	private class Elo
 	{
-		/* Identificação do elemento. */
+		/* IdentificaÃ§Ã£o do elemento. */
 		public int chave;
 		
-		/* Número de predecessores. */
+		/* NÃºmero de predecessores. */
 		public int contador;
 		
-		/* Aponta para o próximo elo da lista. */
+		/* Aponta para o prÃ³ximo elo da lista. */
 		public Elo prox;
 		
 		/* Aponta para o primeiro elemento da lista de sucessores. */
@@ -39,10 +39,10 @@ public class OrdenacaoTopologica
 	
 	private class EloSuc
 	{
-		/* Aponta para o elo que é sucessor. */
+		/* Aponta para o elo que Ã© sucessor. */
 		public Elo id;
 		
-		/* Aponta para o próximo elemento. */
+		/* Aponta para o prÃ³ximo elemento. */
 		public EloSuc prox;
 		
 		public EloSuc()
@@ -59,10 +59,10 @@ public class OrdenacaoTopologica
 	}
 
 
-	/* Ponteiro (referência) para primeiro elemento da lista. */
+	/* Ponteiro (referÃªncia) para primeiro elemento da lista. */
 	private Elo prim;
 	
-	/* Número de elementos na lista. */
+	/* NÃºmero de elementos na lista. */
 	private int n;
 		
 	public OrdenacaoTopologica()
@@ -71,7 +71,7 @@ public class OrdenacaoTopologica
 		n = 0;
 	}
 	
-	/* Método responsável pela leitura do arquivo de entrada. */
+	/* MÃ©todo responsÃ¡vel pela leitura do arquivo de entrada. */
 	public void realizaLeitura(String nomeEntrada)
 	{
 		BufferedReader in;
@@ -98,7 +98,7 @@ public class OrdenacaoTopologica
 		String[] elos = linha.replace(" ","").split("<");
 		
 		//ELEMENTO 1
-		//JÁ EXISTE UM ELO DE MESMO VALOR?
+		//JÃ EXISTE UM ELO DE MESMO VALOR?
 		Elo elo1 = existeElo(Integer.valueOf(elos[0]));
 		if(elo1==null) {
 			elo1 = new Elo(Integer.valueOf(elos[0]),0,null, null);
@@ -112,7 +112,7 @@ public class OrdenacaoTopologica
 		}
 		
 		//ELEMENTO 2
-		//JÁ EXISTE UM ELO DE MESMO VALOR?
+		//JÃ EXISTE UM ELO DE MESMO VALOR?
 		Elo elo2 = existeElo(Integer.valueOf(elos[1]));
 		if(elo2==null) {
 			elo2 = new Elo(Integer.valueOf(elos[1]),0,null, null);
@@ -253,7 +253,7 @@ public class OrdenacaoTopologica
 		}		
 	}
 	
-	/* Método para impressão do estado atual da estrutura de dados. */
+	/* MÃ©todo para impressÃ£o do estado atual da estrutura de dados. */
 	private void debug()
 	{
 		debugRecursivo(prim);
@@ -281,12 +281,12 @@ public class OrdenacaoTopologica
 		}	
 	}
 	
-	/* Método responsável por executar o algoritmo. */
+	/* MÃ©todo responsÃ¡vel por executar o algoritmo. */
 	public boolean executa()
 	{	String nomeEntrada = "entrada.txt";
 		realizaLeitura(nomeEntrada);
 		ordenaConjunto();
-		boolean valor = (n>0 || n<0) ? false : true;
+		boolean valor = (n == 0) ? true : false;
 		return valor;
 	}
 }
