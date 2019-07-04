@@ -74,32 +74,6 @@ public class OrdenacaoTopologica
 	/* Método responsável pela leitura do arquivo de entrada. */
 	public void realizaLeitura(String nomeEntrada)
 	{
-		/*
-		 * 
-		 * REALZIAR LEITURA
-		 * 	LER A LINHA
-		 * 	CRIAR UM ELO
-		 * 	SALVAR NUM CONJUNTO OS ELOS ()
-		 * 
-		 * 
-		 * 
-		 * 	1. se x < y e y < z, então x < z (transitividade)
-		 *	2. se x < y, então não ocorre y < x (assimetria)
-		 *	3. não ocorre z < z (irreflexiva)
-		 *
-		 * 	1 < 2
-		 *  2 < 3
-		 *  
-		 *  1 < 3
-		 * 
-		 * ----------------------------------------
-		 * 
-		 * 1 < 2
-		 * l.split("<")
-		 * l[0].trim()
-		 * 
-		 */
-		
 		BufferedReader in;
 		try {
 			in = new BufferedReader(new FileReader("src/"+nomeEntrada));
@@ -130,8 +104,10 @@ public class OrdenacaoTopologica
 			elo1 = new Elo(Integer.valueOf(elos[0]),0,null, null);
 			if(prim==null) {
 				prim = elo1;
+				n++;
 			}else {
 				ultimoElo().prox = elo1;
+				n++;
 			}
 		}
 		
@@ -141,6 +117,7 @@ public class OrdenacaoTopologica
 		if(elo2==null) {
 			elo2 = new Elo(Integer.valueOf(elos[1]),0,null, null);
 			ultimoElo().prox = elo2;
+			n++;
 		}
 		elo2.contador++;
 		if(elo1.listaSuc==null) {
@@ -202,6 +179,58 @@ public class OrdenacaoTopologica
 		}
 	}
 	
+	private void ArranjaConjunto() {
+		Elo p = prim; prim = null;
+		while(p!=null) {
+			Elo q = p;
+			p = q.prox;
+			if(q.contador == 0) {
+				q.prox = prim;
+				prim = q;
+			}
+			p = p.prox;
+		}
+	}
+	
+	private void ordenaConjunto() {
+		ArranjaConjunto();
+		Elo q = prim;
+		while(q!=null) {
+			System.out.print(q.chave+" ");
+			this.n--;
+			EloSuc t = q.listaSuc;
+			boolean teveZero = false;
+			while(t!=null) {
+				t.id.contador--;
+				if(t.id.contador == 0) {
+					t.id.prox = prim;
+					prim = t.id;
+					teveZero = true;
+				}
+				q.listaSuc = q.listaSuc.prox;
+				t = q.listaSuc;
+			}
+			if(teveZero) {
+				if(prim.prox.listaSuc==null) {
+					prim.prox = q.prox;
+				}else {
+					Elo p = prim;
+					prim = prim.prox;
+					prim.prox = p;
+					prim.prox.prox = null;
+					
+				}
+				q = prim;
+			}
+			else {
+				q = q.prox;
+				prim = q;
+			}
+		}
+		System.out.println("");
+	}
+	
+	
 	private void imprimirElos(Elo elo){
 		System.out.print(elo.chave);
 		System.out.print(" -- ");
@@ -254,9 +283,10 @@ public class OrdenacaoTopologica
 	
 	/* Método responsável por executar o algoritmo. */
 	public boolean executa()
-	{
-		/* Preencher. */
-		
-		return false;
+	{	String nomeEntrada = "entrada.txt";
+		realizaLeitura(nomeEntrada);
+		ordenaConjunto();
+		boolean valor = (n>0 || n<0) ? false : true;
+		return valor;
 	}
 }
